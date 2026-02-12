@@ -1,4 +1,11 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
+const navItems = [
+  { label: "Home", path: "/" },
+  { label: "About", path: "/about" },
+  { label: "Contact", path: "/contact" },
+];
 
 export default function Header() {
   return (
@@ -23,16 +30,18 @@ export default function Header() {
         }}
       >
         {/* Logo / Brand */}
-        <h1
-          style={{
-            fontSize: "1.5rem",
-            fontWeight: "bold",
-            color: "#4f46e5",
-            cursor: "pointer",
-          }}
-        >
-          RYZE.AI
-        </h1>
+        <Link to="/" style={{ textDecoration: "none" }}>
+          <h1
+            style={{
+              fontSize: "1.5rem",
+              fontWeight: "bold",
+              color: "#4f46e5",
+              cursor: "pointer",
+            }}
+          >
+            RYZE.AI
+          </h1>
+        </Link>
 
         {/* Navigation */}
         <nav>
@@ -45,19 +54,21 @@ export default function Header() {
               padding: 0,
             }}
           >
-            {["Home", "Templates", "Docs", "Contact"].map((item) => (
-              <li
-                key={item}
-                style={{
-                  cursor: "pointer",
-                  fontWeight: 500,
-                  color: "#374151",
-                  transition: "color 0.2s",
-                }}
-                onMouseEnter={(e) => (e.target.style.color = "#4f46e5")}
-                onMouseLeave={(e) => (e.target.style.color = "#374151")}
-              >
-                {item}
+            {navItems.map((item) => (
+              <li key={item.label}>
+                <Link
+                  to={item.path}
+                  style={{
+                    textDecoration: "none",
+                    fontWeight: 500,
+                    color: "#374151",
+                    transition: "color 0.2s",
+                  }}
+                  onMouseEnter={(e) => (e.target.style.color = "#4f46e5")}
+                  onMouseLeave={(e) => (e.target.style.color = "#374151")}
+                >
+                  {item.label}
+                </Link>
               </li>
             ))}
           </ul>

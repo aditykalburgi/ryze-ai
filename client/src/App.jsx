@@ -1,38 +1,26 @@
-import React, { useState } from 'react';
-import Header from './components/Header';
-import PromptForm from './components/PromptForm';
-import CodeEditor from './components/CodeEditor';
-import LivePreview from './components/LivePreview';
-import VersionHistory from './components/VersionHistory';
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
+import NotFoundPage from './pages/NotFoundPage';
+import Footer from './components/Footer';
 
 export default function App() {
-  const [code, setCode] = useState('// Generated code will appear here');
-  const [versions, setVersions] = useState([]);
-
-  const handlePrompt = (prompt) => {
-    // Simulate code generation and versioning
-    const generated = `// UI for: ${prompt}\nexport default function App() {\n  return <div>${prompt}</div>;\n}`;
-    setCode(generated);
-    setVersions([{ code: generated, createdAt: new Date() }, ...versions]);
-  };
-
-  const handleSelectVersion = (v) => {
-    setCode(v.code);
-  };
 
   return (
-    <div>
-      <Header />
-      <div style={{ display: 'flex', gap: '2rem', padding: '1rem' }}>
-        <div style={{ flex: 2 }}>
-          <PromptForm onSubmit={handlePrompt} />
-          <CodeEditor code={code} onChange={setCode} />
-          <LivePreview code={code} />
-        </div>
+    <Router>
+      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         <div style={{ flex: 1 }}>
-          <VersionHistory versions={versions} onSelect={handleSelectVersion} />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
         </div>
+        <Footer />
       </div>
-    </div>
+    </Router>
   );
 }
