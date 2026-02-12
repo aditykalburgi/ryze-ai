@@ -1,0 +1,2 @@
+# Generator Prompt
+Describe the UI code generation logic here.
