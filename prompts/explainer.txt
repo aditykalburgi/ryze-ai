@@ -1,2 +1,0 @@
-# Explainer Prompt
-Describe the UI explanation logic here.

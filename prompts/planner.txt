@@ -1,2 +1,0 @@
-# Planner Prompt
-Describe the UI planning logic and requirements here.

@@ -1,6 +1,0 @@
-- [x] Scaffold the Project
-- [ ] Add all required dependencies
-- [ ] Create placeholder files for prompts and ui-library
-- [ ] Add version history and validation setup
-- [ ] Add middleware for security and whitelist enforcement
-- [ ] Add README and copilot-instructions.md
