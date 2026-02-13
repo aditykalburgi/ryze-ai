@@ -1,6 +1,8 @@
-const { GoogleGenerativeAI } = require('@google/generative-ai');
+const Groq = require('groq-sdk');
 
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_KEY);
+const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY
+});
 
 const mockUIGenerator = (prompt) => {
   // Fallback mock UI generator for when API quota is exceeded
@@ -155,26 +157,34 @@ export default function App() {
 
 const generateUICode = async (prompt) => {
   try {
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
+    const message = await groq.chat.completions.create({
+      messages: [
+        {
+          role: 'system',
+          content: `You are an expert React UI developer. Generate clean, modern React component code based on user prompts. 
+          The code should:
+          - Be a single default export React component
+          - Use inline styles or CSS-in-JS
+          - Be production-ready and visually appealing
+          - Handle responsive design
+          - Not import external UI libraries unless necessary
+          
+          Return ONLY the JSX code, no markdown formatting or explanations.`
+        },
+        {
+          role: 'user',
+          content: prompt
+        }
+      ],
+      model: 'mixtral-8x7b-32768',
+      temperature: 0.7,
+      max_tokens: 2000,
+    });
 
-    const systemPrompt = `You are an expert React UI developer. Generate clean, modern React component code based on user prompts. 
-    The code should:
-    - Be a single default export React component
-    - Use inline styles or CSS-in-JS
-    - Be production-ready and visually appealing
-    - Handle responsive design
-    - Not import external UI libraries unless necessary
-    
-    Return ONLY the JSX code, no markdown formatting or explanations.`;
-
-    const message = `${systemPrompt}\n\nUser request: ${prompt}`;
-
-    const result = await model.generateContent(message);
-    const response = await result.response;
-    const text = response.text();
+    const response = message.choices[0].message.content;
 
     // Clean up response if it contains markdown code blocks
-    let cleanedCode = text
+    let cleanedCode = response
       .replace(/```jsx\n?/g, '')
       .replace(/```tsx\n?/g, '')
       .replace(/```\n?/g, '')
@@ -182,7 +192,7 @@ const generateUICode = async (prompt) => {
 
     return cleanedCode;
   } catch (error) {
-    console.error('Gemini API error:', error.message);
+    console.error('Groq API error:', error.message);
     console.log('Using fallback UI generator...');
     
     // Use mock generator as fallback
