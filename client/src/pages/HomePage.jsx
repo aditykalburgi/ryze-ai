@@ -16,6 +16,30 @@ export default function HomePage() {
 }`);
   const [versions, setVersions] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
+  const [models, setModels] = React.useState([]);
+  const [selectedModel, setSelectedModel] = React.useState('groq');
+
+  // Fetch available models on mount
+  React.useEffect(() => {
+    const fetchModels = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.REACT_APP_API_URL || "http://localhost:5000"}/api/ui/models`
+        );
+        const data = await response.json();
+        if (data.success && data.models) {
+          setModels(data.models);
+          // Set first model as default
+          if (data.models.length > 0) {
+            setSelectedModel(data.models[0].id);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to fetch models:', err);
+      }
+    };
+    fetchModels();
+  }, []);
 
   const handlePrompt = async (prompt) => {
     setLoading(true);
@@ -26,7 +50,7 @@ export default function HomePage() {
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ prompt }),
+          body: JSON.stringify({ prompt, model: selectedModel }),
         }
       );
 
@@ -80,12 +104,38 @@ export default function HomePage() {
             Describe any interface and watch Ryze AI generate production-ready React code in seconds.
           </p>
 
+          {/* Model Selector */}
+          {models.length > 0 && (
+            <div style={styles.modelSelector}>
+              <label style={styles.modelLabel}>AI Model:</label>
+              <select
+                value={selectedModel}
+                onChange={(e) => setSelectedModel(e.target.value)}
+                style={styles.modelSelect}
+              >
+                {models.map((model) => (
+                  <option key={model.id} value={model.id}>
+                    {model.name} {model.free ? "(Free)" : "(Paid)"} - {model.speed}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+
           <PromptForm onSubmit={handlePrompt} />
 
           {loading && (
-            <div style={styles.loadingContainer}>
-              <div style={styles.spinner}></div>
-              <p style={styles.loadingText}>Crafting your UI...</p>
+            <div style={styles.loadingOverlay}>
+              <div style={styles.loadingModal}>
+                <div style={styles.spinnerLarge}></div>
+                <p style={styles.loadingTextPrimary}>Crafting your UI...</p>
+                <p style={styles.loadingTextSecondary}>Our AI is generating beautiful React code for you</p>
+                <div style={styles.loadingDots}>
+                  <span style={styles.dot}></span>
+                  <span style={styles.dot}></span>
+                  <span style={styles.dot}></span>
+                </div>
+              </div>
             </div>
           )}
         </div>
@@ -105,10 +155,10 @@ export default function HomePage() {
                   <line x1="12" y1="17" x2="12" y2="21" />
                 </svg>
               </div>
-              <span>Live Preview</span>
+              <span>Live Preview {loading && "⏳"}</span>
             </div>
           </div>
-          <LivePreview code={code} />
+          <LivePreview code={code} loading={loading} />
         </div>
 
         {/* CENTER - EDITOR */}
@@ -182,6 +232,16 @@ const keyframes = `
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
+  @keyframes bounce {
+    0%, 80%, 100% { opacity: 0.3; }
+    40% { opacity: 1; }
   }
 `;
 
@@ -296,6 +356,80 @@ const styles = {
     margin: "0 auto 40px",
   },
 
+  loadingOverlay: {
+    position: "fixed",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    background: "rgba(0, 0, 0, 0.7)",
+    backdropFilter: "blur(8px)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 9999,
+    animation: "fadeInUp 0.3s ease-out",
+  },
+
+  loadingModal: {
+    background: "linear-gradient(135deg, rgba(20, 20, 35, 0.95) 0%, rgba(30, 25, 50, 0.95) 100%)",
+    border: "1px solid rgba(99, 102, 241, 0.3)",
+    borderRadius: "24px",
+    padding: "60px 40px",
+    textAlign: "center",
+    maxWidth: "400px",
+    boxShadow: "0 20px 60px rgba(99, 102, 241, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1)",
+    animation: "fadeInUp 0.4s ease-out",
+  },
+
+  spinnerLarge: {
+    width: "60px",
+    height: "60px",
+    border: "4px solid rgba(255, 255, 255, 0.1)",
+    borderTop: "4px solid #6366f1",
+    borderRight: "4px solid #a855f7",
+    borderRadius: "50%",
+    animation: "spin 1s linear infinite",
+    margin: "0 auto 30px",
+  },
+
+  loadingTextPrimary: {
+    fontSize: "1.3rem",
+    fontWeight: "700",
+    color: "#ffffff",
+    marginBottom: "12px",
+    letterSpacing: "-0.5px",
+  },
+
+  loadingTextSecondary: {
+    fontSize: "0.95rem",
+    color: "rgba(255, 255, 255, 0.6)",
+    marginBottom: "30px",
+    lineHeight: "1.5",
+  },
+
+  loadingDots: {
+    display: "flex",
+    justifyContent: "center",
+    gap: "8px",
+    marginTop: "20px",
+  },
+
+  dot: {
+    width: "8px",
+    height: "8px",
+    background: "#6366f1",
+    borderRadius: "50%",
+    display: "inline-block",
+    animation: "bounce 1.4s infinite",
+    "&:nth-child(2)": {
+      animationDelay: "0.2s",
+    },
+    "&:nth-child(3)": {
+      animationDelay: "0.4s",
+    },
+  },
+
   loadingContainer: {
     marginTop: "30px",
     display: "flex",
@@ -381,5 +515,38 @@ const styles = {
     borderRadius: "12px",
     fontSize: "0.8rem",
     fontWeight: "600",
+  },
+
+  modelSelector: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: "12px",
+    marginBottom: "30px",
+    flexWrap: "wrap",
+  },
+
+  modelLabel: {
+    color: "#e0e7ff",
+    fontSize: "0.95rem",
+    fontWeight: "600",
+  },
+
+  modelSelect: {
+    padding: "10px 16px",
+    background: "rgba(99, 102, 241, 0.1)",
+    border: "1px solid rgba(99, 102, 241, 0.3)",
+    borderRadius: "8px",
+    color: "#e0e7ff",
+    fontSize: "0.95rem",
+    fontWeight: "500",
+    cursor: "pointer",
+    transition: "all 0.2s ease",
+    appearance: "none",
+    backgroundImage: `url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e")`,
+    backgroundRepeat: "no-repeat",
+    backgroundPosition: "right 8px center",
+    backgroundSize: "20px",
+    paddingRight: "32px",
   },
 };
