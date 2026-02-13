@@ -133,7 +133,7 @@ export default function ContactPage() {
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  placeholder="John Doe"
+                  placeholder=""
                   style={styles.input}
                   required
                 />
@@ -146,7 +146,7 @@ export default function ContactPage() {
                   name="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="john@example.com"
+                  placeholder=""
                   style={styles.input}
                   required
                 />
@@ -227,7 +227,7 @@ export default function ContactPage() {
 
             {/* Quick Response Card */}
             <div style={styles.responseCard}>
-              <div style={styles.responseIcon}>⚡</div>
+              <div style={styles.responseIcon}></div>
               <h4 style={styles.responseTitle}>Quick Response</h4>
               <p style={styles.responseText}>
                 We typically respond within 24 hours on business days
