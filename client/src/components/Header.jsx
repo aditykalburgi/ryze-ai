@@ -30,17 +30,15 @@ export default function Header() {
         }}
       >
         {/* Logo / Brand */}
-        <Link to="/" style={{ textDecoration: "none" }}>
-          <h1
+        <Link to="/" style={{ textDecoration: "none", display: "flex", alignItems: "center" }}>
+          <img
+            src="/assets/logos/ryzeai.png"
+            alt="Ryze AI"
             style={{
-              fontSize: "1.5rem",
-              fontWeight: "bold",
-              color: "#4f46e5",
+              height: "55px",
               cursor: "pointer",
             }}
-          >
-            RYZE.AI
-          </h1>
+          />
         </Link>
 
         {/* Navigation */}
