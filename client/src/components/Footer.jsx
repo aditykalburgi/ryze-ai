@@ -44,7 +44,7 @@ export default function Footer() {
           <h4 style={{ color: "white", marginBottom: "0.5rem" }}>Follow</h4>
           <p style={{ cursor: "pointer" }}>GitHub</p>
           <p style={{ cursor: "pointer" }}>LinkedIn</p>
-          <p style={{ cursor: "pointer" }}>Twitter</p>
+
         </div>
       </div>
 

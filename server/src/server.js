@@ -1,7 +1,9 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config({ path: './.env' });
+
+const uiRoutes = require('./routes/uiRoutes');
 
 const app = express();
 app.use(cors());
@@ -11,6 +13,9 @@ app.use(express.json());
 app.get('/', (req, res) => {
   res.send('Backend is running!');
 });
+
+// Routes
+app.use('/api/ui', uiRoutes);
 
 // Connect to MongoDB
 const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/ai-ui-generator';
