@@ -151,6 +151,99 @@ The frontend opens at `http://localhost:3000`
 "Product card component with image, rating, price, and add-to-cart button"
 ```
 
+## What Can It Generate?
+
+Ryze AI can create virtually **any React component** you can describe! Here's what's possible:
+
+### Forms & Authentication
+- Login pages
+- Sign-up forms
+- Forgot password pages
+- Contact forms
+- Survey forms
+- Multi-step forms
+- OTP verification screens
+
+### Dashboards
+- Analytics dashboards
+- Data visualization layouts
+- Admin panels
+- User profiles
+- Settings pages
+- Statistics cards
+- Progress indicators
+
+### E-Commerce
+- Product listings/grids
+- Shopping carts
+- Checkout pages
+- Product detail pages
+- Category filters
+- Search results
+- Customer reviews section
+- Wishlist pages
+- Order tracking
+
+### Content
+- Blog layouts
+- News feeds
+- Social media feeds
+- Comment sections
+- Review sections
+- Article cards
+- Content galleries
+
+### Navigation
+- Header/navbar designs
+- Sidebars
+- Breadcrumbs
+- Pagination
+- Tab systems
+- Dropdown menus
+- Mobile navigation
+
+### Business
+- Pricing tables
+- Team member cards
+- Service cards
+- Feature showcase
+- Call-to-action sections
+- Testimonials
+- Client logos grid
+
+### Additional Components
+- Modals & dialogs
+- Alerts & notifications
+- Loading states
+- Error pages (404, 500)
+- Empty states
+- Accordions & collapsible content
+- Sliders & carousels
+- Image galleries
+- Video players
+- Timelines
+- Charts & graphs
+- Tables & data grids
+- Buttons & button groups
+- Input fields (text, email, password, etc.)
+- Checkboxes & radio buttons
+- Toggles & switches
+- Date pickers
+- Dropdowns & select menus
+- Tags & badges
+- Progress bars
+- Spinners & loaders
+- Tooltips & popovers
+- Spinners
+- Ratings & stars
+
+### Live Preview
+✨ **See components render in real-time** as you describe them!
+- Live preview with Sandpack
+- Instant visual feedback
+- Edit generated code and see changes immediately
+- Copy production-ready code to your project
+
 ## API Endpoints
 
 ### Generate UI Code
