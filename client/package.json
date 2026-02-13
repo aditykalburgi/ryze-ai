@@ -20,6 +20,7 @@
     "react-router-dom": "^6.30.3",
     "react-scripts": "^5.0.1",
     "redux": "^4.2.1",
+    "styled-components": "^5.3.11",
     "zod": "^3.22.2",
     "zustand": "^4.4.0"
   },

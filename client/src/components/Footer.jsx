@@ -3,63 +3,126 @@ import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
-    <footer
-      style={{
-        background: "#111827",
-        color: "#d1d5db",
-        padding: "2rem 1rem",
-        marginTop: "3rem",
-      }}
-    >
-      <div
-        style={{
-          maxWidth: "1200px",
-          margin: "auto",
-          display: "flex",
-          flexWrap: "wrap",
-          justifyContent: "space-between",
-          gap: "1.5rem",
-        }}
-      >
-        {/* Branding */}
+    <footer style={styles.footer}>
+      <div style={styles.container}>
+
+        {/* BRANDING */}
         <div>
-          <h3 style={{ color: "white", marginBottom: "0.5rem" }}>
-            Ryze.ai
-          </h3>
-          <p style={{ fontSize: "14px" }}>
-            Generate modern UI components using AI.
+          <h2 style={styles.brand}>Ryze.ai</h2>
+          <p style={styles.description}>
+            Generate modern UI components instantly using AI.
           </p>
         </div>
 
-        {/* Navigation */}
+        {/* NAVIGATION */}
         <div>
-          <h4 style={{ color: "white", marginBottom: "0.5rem" }}>Quick Links</h4>
-          <p><Link to="/" style={{ color: "#d1d5db", textDecoration: "none" }}>Home</Link></p>
-          <p><Link to="/about" style={{ color: "#d1d5db", textDecoration: "none" }}>About</Link></p>
-          <p><Link to="/contact" style={{ color: "#d1d5db", textDecoration: "none" }}>Contact</Link></p>
+          <h4 style={styles.heading}>Quick Links</h4>
+
+          <FooterLink to="/" label="Home" />
+          <FooterLink to="/about" label="About" />
+          <FooterLink to="/contact" label="Contact" />
         </div>
 
-        {/* Social Links */}
+        {/* SOCIAL */}
         <div>
-          <h4 style={{ color: "white", marginBottom: "0.5rem" }}>Follow</h4>
-          <p style={{ cursor: "pointer" }}>GitHub</p>
-          <p style={{ cursor: "pointer" }}>LinkedIn</p>
+          <h4 style={styles.heading}>Follow</h4>
 
+          <ExternalLink
+            href="https://github.com/aditykalburgi"
+            label="GitHub"
+          />
+          <ExternalLink
+            href="https://www.linkedin.com/in/aditya-kalburgi-080b5b267/"
+            label="LinkedIn"
+          />
         </div>
       </div>
 
-      {/* Bottom Bar */}
-      <div
-        style={{
-          borderTop: "1px solid #374151",
-          marginTop: "1.5rem",
-          paddingTop: "1rem",
-          textAlign: "center",
-          fontSize: "14px",
-        }}
-      >
-        © 2026 Ryze.ai. All rights reserved.
+      {/* BOTTOM BAR */}
+      <div style={styles.bottomBar}>
+        © {new Date().getFullYear()} Ryze.ai — All rights reserved.
       </div>
     </footer>
   );
 }
+
+/* ---------- Reusable Components ---------- */
+
+function FooterLink({ to, label }) {
+  return (
+    <p>
+      <Link to={to} style={styles.link}>
+        {label}
+      </Link>
+    </p>
+  );
+}
+
+function ExternalLink({ href, label }) {
+  return (
+    <p>
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={styles.link}
+      >
+        {label}
+      </a>
+    </p>
+  );
+}
+
+/* ---------- Styles ---------- */
+
+const styles = {
+  footer: {
+    background: "#020617",
+    color: "#cbd5f5",
+    padding: "3rem 1rem 1.5rem",
+    marginTop: "3rem",
+  },
+
+  container: {
+    maxWidth: "1200px",
+    margin: "auto",
+    display: "grid",
+    gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+    gap: "2rem",
+  },
+
+  brand: {
+    color: "#ffffff",
+    marginBottom: "0.5rem",
+    fontWeight: "600",
+  },
+
+  description: {
+    fontSize: "14px",
+    lineHeight: "1.6",
+    color: "#94a3b8",
+  },
+
+  heading: {
+    color: "#ffffff",
+    marginBottom: "0.8rem",
+    fontSize: "15px",
+    fontWeight: "600",
+  },
+
+  link: {
+    color: "#94a3b8",
+    textDecoration: "none",
+    fontSize: "14px",
+    transition: "0.2s",
+  },
+
+  bottomBar: {
+    borderTop: "1px solid #1e293b",
+    marginTop: "2rem",
+    paddingTop: "1rem",
+    textAlign: "center",
+    fontSize: "13px",
+    color: "#64748b",
+  },
+};
